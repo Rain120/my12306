@@ -1,0 +1,434 @@
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<html>
+<head>
+	<link rel="shortcut icon" type="text/css" href="./favicon.ico">
+	<title>12306注册</title>
+</head>
+<style type="text/css">
+	div{
+		display: block;
+	}
+	a:hover{color: #FF7F00;}
+	a:visited{color: blue;}
+	a:active{color: #FF7F00;}
+	#header {
+		background-color: #EFEFEF;
+		height: 66px;
+		background-position: 0 0;
+		border-bottom: 3px solid #1678BE;
+	}
+	.leftImg{
+		height: 107%;
+		width: 86%;
+		position: relative;
+		top: 0px;
+		left: 6px;
+	}
+	.rightImg{
+		height: 58%;
+		width: 107%;
+		position: relative;
+		top: 18px;
+		left: -87px;
+	}
+	#content {
+		width: 970px;
+		height: 650px;
+		margin: 0px auto;
+		/*border: 1px solid #1678BE;*/
+	}
+	.crumbs {
+		height: 32px;
+		margin: 16px 0 0 6px;
+	}
+	.signup_header{
+		/*background: url("https://kyfw.12306.cn/otn/resources/images/bg_nav.png") no-repeat;*/
+		/*width: 100%*/
+		height: 33px;
+		border: 1px solid #1678BE;
+		background-color: #1678BE;
+		background-position: 0 -400px;
+	}
+	.title{
+		color:white;
+		position: relative;
+		top: 8px;
+		left: 30px;
+	}
+	.signup_body{
+		height: 580px;
+		border: 1px solid #1678BE;
+	}
+	.uname {
+		position: relative;
+		top: 20px;
+		left: 240px;
+	}
+	.passwd {
+		position: relative;
+		top: 35px;
+		left: 240px;
+	}
+	.pwdstrenth{
+		/*border:1px solid #999999;*/
+		position: relative;
+		top: -5px;
+		left: 2px;
+	}
+	#strength_L{
+		background: #999999;
+	}
+	#strength_M{
+		background: #999999;
+	}
+	#strength_H{
+		background: #999999;
+	}
+	/*.s1{
+	 	display: inline-block;
+	    width: 45px;
+	    height: 6px;
+	    overflow: hidden;
+	    background: #999;
+	}
+	.s2{
+	 	display: inline-block;
+	    width: 45px;
+	    height: 6px;
+	    overflow: hidden;
+	    background: #999;
+	    margin-left: -6px;
+	}
+	.s3{
+	 	display: inline-block;
+	    width: 45px;
+	    height: 6px;
+	    overflow: hidden;
+	    background: #999;
+	    margin-left: -6px;
+	}*/
+	.confirmPasswd {
+		position: relative;
+		top: 50px;
+		left: 240px;
+	}
+	.realName {
+		position: relative;
+		top: 65px;
+		left: 240px;
+	}
+	.IDType {
+		position: relative;
+		top: 80px;
+		left: 240px;
+	}
+	.IDNumber{
+		position: relative;
+		top: 95px;
+		left: 240px;
+	}
+	.E_mail{
+		position: relative;
+		top: 110px;
+		left: 240px;
+	}
+	.TelNumber{
+		position: relative;
+		top: 125px;
+		left: 240px;
+	}
+	.VisitorType{
+		position: relative;
+		top: 140px;
+		left: 240px;
+	}
+	.checkItem{
+		position: relative;
+		top: 155px;
+		left: 338px;
+	}
+	.nextStep{
+		position: relative;
+		top: 200px;
+		left: 370px;
+	}
+	.nextStepStyle{
+		background-color: #FF7F00;
+		height: 30px;
+		width: 120px;
+	}
+	#foot{
+		border-top: 2px solid #1678BE;
+		width: 100%;
+		height: 60px;
+		text-align: center;
+		margin-top: 100px;
+	}
+	</style>
+	<script type="text/javascript">
+		//判断输入密码的类型  
+		function CharMode(pwd) {
+			if(pwd >= 48 && pwd <= 57) //数字  
+				return 1;
+			if(pwd >= 65 && pwd <= 90) //大写  
+				return 2;
+			if(pwd >= 97 && pwd <= 122) //小写  
+				return 4;
+			else
+				return 8;
+		}
+		//bitTotal函数  
+		//计算密码模式  
+		function bitTotal(num) {
+			modes = 0;
+			for(i = 0; i < 4; i++) {
+				if(num & 1) 
+				{
+					modes++;
+				}
+				num >>>= 1;
+			}
+			return modes;
+		}
+		//返回强度级别  
+		function checkStrong(sPW) {
+		if(sPW.length <= 5 || sPW.length >= 20){
+			return 0; //密码太短 
+		} 
+		Modes = 0;
+		for(i = 0; i < sPW.length; i++) {
+			//密码模式  
+			Modes |= CharMode(sPW.charCodeAt(i));
+		}
+		return bitTotal(Modes);
+		}
+
+		//显示颜色  
+		function pwStrength(pwd) {
+			O_color = "#999999";
+			L_color = "#7CFC00";
+			M_color = "#FFD700";
+			H_color = "#FF0000";
+			if(pwd == null || pwd == '') {
+				Lcolor = Mcolor = Hcolor = O_color;
+			} else {
+				S_level = checkStrong(pwd);
+				switch(S_level) {
+					case 0:
+						Lcolor = Mcolor = Hcolor = O_color;
+					case 1:
+						Lcolor = L_color;
+						Mcolor = Hcolor = O_color;
+						break;
+					case 2:
+						Mcolor = M_color;
+						Hcolor = O_color;
+						break;
+					default:
+						Hcolor = H_color;
+				}
+			}
+			document.getElementById("strength_L").style.background = Lcolor;
+			document.getElementById("strength_M").style.background = Mcolor;
+			document.getElementById("strength_H").style.background = Hcolor;
+			return;
+		}	
+		// function charMode(pwd){
+		// 	if (pwd >= 48 && pwd <= 57){
+		// 		return 1;
+		// 	}
+		// 	if (pwd >= 65 && pwd <= 90){
+		// 		return 2;
+		// 	}
+		// 	if (pwd >= 97 && pwd <= 122){
+		// 		return 4;
+		// 	}
+		// 	else{
+		// 		return 8;
+		// 	}
+		// }
+		// function bitTotal(num){ 
+		// 	modes = 0; 
+		// 	for (i = 0;i < 4;i++){ 
+		// 		if (num & 1) {
+		// 			modes++; 
+		// 		}
+		// 		num>>>=1; 
+		// 	} 
+		// 	return modes; 
+		// } 
+		// //返回强度级别 
+		// function checkStrong(sPW){ 
+		// 	if (sPW.length<=5) 
+		// 		return 0; //密码太短 
+		// 	Modes = 0; 
+		// 	for (i = 0;i < sPW.length;i++){ 
+		// 		//密码模式 
+		// 		Modes = CharMode(sPW.charCodeAt(i)); 
+		// 	} 
+		// 	return bitTotal(Modes); 
+		// } 
+		// function pwStrength(password){
+		// 	Dfault_color = #999999;
+		// 	L_color = #7CFC00;
+		// 	M_color = #FFD700;
+		// 	H_color = #FFA500;
+		// 	if (password == '' || password == null){
+		// 		Lcolor = Mcolor = Hcolor = Dfault_color;
+		// 	}
+		// 	else{
+		// 		switch(checkStrong(password)){
+		// 			case 0:
+		// 				Lcolor = Mcolor = Hcolor = Dfault_color;
+		// 				break;
+		// 			case 1:  
+		// 				Lcolor = L_color;
+		// 				Mcolor = Hcolor = Dfault_color;
+		// 				break;  
+		// 			case 2:  
+		// 				Lcolor = Mcolor = M_color;  
+		// 				Hcolor = Dfault_color;  
+		// 				break;  
+		// 			default:  
+		// 				Lcolor = Mcolor = Hcolor = H_color;
+		// 	}
+		// 	document.getElementById("strength_L").style.background=Lcolor; 
+		// 	document.getElementById("strength_M").style.background=Mcolor; 
+		// 	document.getElementById("strength_H").style.background=Hcolor; 
+		// 	return; 
+		// }
+	</script>
+<body>
+	<div id = "header">
+		<table border = "0" width = "100%" height = "100%">
+			<tr>
+				<td width = "15%"></td>
+				<td width = "45%" heigth = "73px">
+					<img src="https://kyfw.12306.cn/otn/resources/images/logo.png" class = "leftImg">
+				</td>	
+				<td width = "30%">
+					<img src="https://kyfw.12306.cn/otn/resources/images/bg_nav.png" class = "rightImg">
+				</td>
+				<td width = "10%"></td>
+			</tr>
+		</table>
+	</div>
+	<div id = "content">
+		<div class = "crumbs">
+			您现在的位置：
+			<a href="">客运首页</a>
+			&nbsp;&gt;&nbsp;
+			<a href="">注册</a>
+		</div>
+		<div class = "signup">
+			<div class = "signup_header">
+				<div class = "title">账户信息</div>
+			</div>
+			<div class = "signup_body">
+				<ul style="list-style: none;">
+					<li class = "uname">
+						<font style = "color:red">*</font>
+						&nbsp;
+						用户名：
+						<input type = "text" name = "username" style ="width: 200px;height: 30px;" placeholder = "用户名设置成功后不可修改">
+						<font size = "2" style = "color:#FF7F00">6-30位字母、数字或“_”,字母开头</font>
+					</li>
+					<li class = "passwd">
+						<font style = "color:red">*</font>
+						登录密码：
+						<input type = "password" name = "password" style ="width: 200px;height: 30px;" placeholder = "6-20位字母、数字或字符" onKeyUp = "pwStrength(this.value);" onblur="pwStrength(this.value);">
+						<!-- <span class = "s1" id = "strength_L"></span>
+						<span class = "s2" id = "strength_M"></span>
+						<span class = "s3" id = "strength_H"></span> -->
+						<table width = "132px" height = "10" border = "0" cellspacing = "1" cellpadding = "3" bordercolor = "white" style = "display:inline;" class = "pwdstrenth">
+							<tr align = "center">
+								<td width = "33%" id = "strength_L"></td>
+								<td width = "33%" id = "strength_M"></td>
+								<td width = "33%" id = "strength_H"></td>
+							</tr>
+						</table>
+					</li>
+					<li class = "confirmPasswd">
+						<font style = "color:red">*</font>
+						确认密码：
+						<input type = "password" name = "password" style ="width: 200px;height: 30px;" placeholder = "再次输入您的登录密码">
+					</li>
+					<li class = "realName">
+						<font style = "color:red">*</font>
+						&nbsp;&nbsp;&nbsp;
+						姓名：
+						<input type = "text" name = "realName" style ="width: 200px;height: 30px;"
+						placeholder = "请输入姓名">
+						<span>
+							<font size = "2" style = "color:#FF7F00">
+								<a style = "color:#FF7F00;text-decoraton:underline;" shape = "rect" onMouseMove = "">
+									姓名填写规则
+								</a>
+							</font>
+						</span>
+					</li>
+					<li class = "IDType">
+						<font style = "color:red">*</font>
+						证件类型：
+						<select style ="width: 200px;height: 30px;">
+							<option value = "二代身份证">二代身份证</option>
+							<option value = "护照">护照</option>
+							<option value = "港澳通行证">港澳通行证</option>
+							<option value = "台湾通行证">台湾通行证</option>
+						</select>
+					</li>
+					<li class = "IDNumber">
+						<font style = "color:red">*</font>
+						证件号码：
+						<input type = "text" name = "IDNumber" style ="width: 200px;height: 30px;" placeholder = "请输入您的证件号码">
+					</li>
+					<li class = "E_mail">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						邮箱：
+						<input type = "text" name = "IDNumber" style ="width: 200px;height: 30px;" placeholder = "请正确填写邮箱地址">
+					</li>
+					<li class = "TelNumber">
+						<font style = "color:red">*</font>
+						手机号码：
+						<input type = "text" name = "TelNumber" style ="width: 200px;height: 30px;" placeholder = "请输入您的手机号码">
+						<font size = "2" style = "color:#FF7F00">
+							请正确填写手机号码，稍后将向该手机号码发送短信验证码
+						</font>
+					</li>
+					<li class = "VisitorType">
+						<font style = "color:red">*</font>
+						证件类型：
+						<select style ="width: 200px;height: 30px;">
+							<option value = "成人">成人</option>
+							<option value = "儿童">儿童</option>
+							<option value = "学生">学生</option>
+							<option value = "残疾军人、伤残人民警察">残疾军人、伤残人民警察</option>
+						</select>
+					</li>
+					<li class = "checkItem">
+						<input type = "checkBox" value = "checkItem" name = "checkItem"/>
+						我已阅读并同意遵守
+						<a href="https://kyfw.12306.cn/otn/regist/rule" target = "_blank">《中国铁路客户服务中心网站服务条款》
+						</a>
+					</li>
+					<li class = "nextStep">
+						<button type = "button" name = "nextStep" value = "nextStep" class = "nextStepStyle">
+							<font size = "3" style = "color:white">
+								下一步
+							</font>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id = "foot">
+		<!-- <hr width = "100%" color:"#1678BE;" size = 10> -->
+		<font size = "2">
+			<p><a href="">关于我们</a> | <a href="">网站声明</a></p>
+			<p>版权所有&copy;2008-2015铁道部信息技术中心&nbsp;&nbsp;中国铁道科学研究院</p>
+			<p>京ICP备10009636号</p>
+		</font>
+	</div>
+</body>
+</html>
